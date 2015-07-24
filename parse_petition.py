@@ -96,7 +96,10 @@ def main(args):
 
         filepaths = args[2:]
         datafile = open(args[1], "r+")
-        data = json.loads(datafile.read())
+        datastring = datafile.read()
+        if datastring == "":
+            datastring = "[]"
+        data = json.loads(datastring)
         datafile.seek(0)
         datafile.truncate()
         previous_count = None
