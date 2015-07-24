@@ -47,7 +47,7 @@ class ParsePetition(HTMLParser):
     def feed(self, *other):
         HTMLParser.feed(self, other)
         if self.sig_count == None:
-            raise: ValueError("Could not parse the petition count from file '%s'" % (self.filepath))
+            raise ValueError("Could not parse the petition count from file '%s'" % (self.filepath))
 
 
     def toJSON(self):
