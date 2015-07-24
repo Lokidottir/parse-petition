@@ -21,6 +21,7 @@ class ParsePetition(HTMLParser):
         HTMLParser.__init__(self)
         self.is_at_count = False
         self.sig_count = None
+        self.filepath = filepath
         self.sig_time = os.path.getctime(filepath)
         self.last_count = last_count
         if feed:
@@ -46,7 +47,7 @@ class ParsePetition(HTMLParser):
     def feed(self, *other):
         HTMLParser.feed(self, other)
         if self.sig_count == None:
-            raise: ValueError("Could not parse the petition count from the html")
+            raise: ValueError("Could not parse the petition count from file '%s'" % (self.filepath))
 
 
     def toJSON(self):
