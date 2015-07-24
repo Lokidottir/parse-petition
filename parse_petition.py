@@ -43,6 +43,12 @@ class ParsePetition(HTMLParser):
         else:
             return
 
+    def feed(self, *other):
+        HTMLParser.feed(self, other)
+        if self.sig_count == None:
+            raise: ValueError("Could not parse the petition count from the html")
+
+
     def toJSON(self):
         """
             Returns a JSON representation of the parsed data,
@@ -68,9 +74,9 @@ class ParsePetition(HTMLParser):
 __parse_petition_helptext__ = """\
 parse-petition written by lokidottir, available under the MIT Licence
     usage:
-        parse-petition[.py] <data filename> <files...>
+        parse-petition <data file> <files...>
         args:
-            data filename:
+            data file:
                 any json file of any name that contains
                 an array of data points to append the data
                 points parsed by this program to.
@@ -102,6 +108,7 @@ def main(args):
         for path in filepaths:
             datapoint = ParsePetition(path, previous_count)
             data.append(datapoint.toJSON())
+            previous_count = datapoint["signatures"]
 
         datafile.write(json.dumps(data))
         datafile.close()
