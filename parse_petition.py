@@ -110,7 +110,12 @@ def main(args):
             previous_count = 0
 
         for path in filepaths:
-            datapoint = ParsePetition(path, previous_count)
+            datapoint = None
+            try:
+                datapoint = ParsePetition(path, previous_count)
+            except ValueError:
+                print("Could not read from '%s', skipping" % (path))
+                continue
             json_rep = datapoint.toJSON()
             data.append(json_rep)
             previous_count = json_rep["signatures"]
