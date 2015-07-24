@@ -45,7 +45,7 @@ class ParsePetition(HTMLParser):
             return
 
     def feed(self, *other):
-        HTMLParser.feed(self, other)
+        HTMLParser.feed(self, *other)
         if self.sig_count == None:
             raise ValueError("Could not parse the petition count from file '%s'" % (self.filepath))
 
@@ -111,8 +111,9 @@ def main(args):
 
         for path in filepaths:
             datapoint = ParsePetition(path, previous_count)
-            data.append(datapoint.toJSON())
-            previous_count = datapoint["signatures"]
+            json_rep = datapoint.toJSON()
+            data.append(json_rep)
+            previous_count = json_rep["signatures"]
 
         datafile.write(json.dumps(data))
         datafile.close()
